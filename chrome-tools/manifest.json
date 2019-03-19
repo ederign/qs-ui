@@ -1,27 +1,14 @@
 {
   "name": "QS Chrome Extension",
-  "version": "1.1",
+  "version": "1.2.0",
+  "manifest_version": 2,
   "description": "QS Chrome Extension",
-  "options_page": "options.html",
-  "permissions": ["activeTab", "declarativeContent", "storage"],
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
-  "page_action": {
-    "default_popup": "popup.html",
-    "default_icon": {
-      "16": "images/pug16.png",
-      "32": "images/pug32.png",
-      "48": "images/icons8-pug-48.png",
-      "128": "images/get_started128.png"
-    }
-  },
-  "icons": {
-    "16": "images/pug16.png",
-      "32": "images/pug32.png",
-      "48": "images/icons8-pug-48.png",
-      "128": "images/get_started128.png"
-  },
-  "manifest_version": 2
+  "content_scripts": [{
+    "js": ["contentscript.js"],
+    "matches": ["*://*/*"],
+    "all_frames": true
+}],
+"web_accessible_resources": [
+    "frame.html"
+]
 }
