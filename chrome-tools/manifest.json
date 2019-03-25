@@ -5,7 +5,7 @@
   "description": "QS Chrome Extension",
   "content_scripts": [{
     "js": ["contentscript.js"],
-    "matches": ["*://*/*"],
+    "matches": ["https://github.com/*/edit/*"],
     "all_frames": true
 }],
 "web_accessible_resources": [
