@@ -10,23 +10,25 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:kie.submarine"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Open on DMN Editor"
+				"command": "kie.submarine",
+				"title": "Open Editor"
 			}
 		],
 		"menus": {
-			"explorer/context": [{
+			"explorer/context": [
+				{
 					"when": "resourceExtname == .dmn",
-					"command": "extension.helloWorld",
-					"group": "YourGroup@1"
-		}]
-			}
+					"command": "kie.submarine",
+					"group": "KieGroup"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -36,10 +38,12 @@
 		"test": "npm run compile && node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"typescript": "^3.3.1",
-		"vscode": "^1.1.28",
-		"tslint": "^5.12.1",
+		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
-		"@types/mocha": "^2.2.42"
-	}
+		"supports-color": "^6.1.0",
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28"
+	},
+	"dependencies": {}
 }
