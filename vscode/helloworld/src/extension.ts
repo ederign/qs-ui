@@ -156,31 +156,80 @@ function init(context: vscode.ExtensionContext) {
 			panel.webview.html = `<!DOCTYPE html>
 			<html lang="en">
 				<head>
+				    <title>KIE Editor</title>
 						<meta charset="UTF-8">
 						<meta name="viewport" content="width=device-width, initial-scale=1.0">
-						<title>KIE Editor</title>
+						<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				
+						<link rel="stylesheet" type="text/css" href="http://localhost:9000/jsoneditor.min.css" >
+						<link rel="stylesheet" type="text/css" href="http://localhost:9000/patternfly.css">
+				
+						<link rel="stylesheet" href="http://localhost:9000/org.uberfire.editor.StandaloneEditor/css/patternfly.min.css">
+						<link rel="stylesheet" href="http://localhost:9000/org.uberfire.editor.StandaloneEditor/css/patternfly-additions.min.css">
 				</head>
 				<body>
-					<textarea id="source">${source}</textarea>
-					<script>
+				<div id="app"></div>
+				
+				<iframe id="__gwt_historyFrame" style="width: 0; height: 0; border: 0"></iframe>
+				
+				<!-- loading indicator. the js app hides this once it's loaded. -->
+				<div id="loading" class="container-fluid" style="position: absolute;left: 45%; top: 40%; padding: 2px; z-index: 20001; height: auto; border: 1px solid #ccc;">
+						<div class="row">
+								<div class="col-lg-12">
+										<div class="center-block text-center">
+												<div class="spinner spinner-lg"></div>
+										</div>
+								</div>
+								<div class="col-lg-12">
+										<div class="center-block text-center">
+												<h3>Please wait</h3>
+										</div>
+								</div>
+								<div class="col-lg-12">
+										<div class="center-block text-center">
+												<span>Loading application...</span>
+										</div>
+								</div>
+						</div>
+				</div>
+				
+				<!-- ACE - main .js file -->
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+				<!-- Get .js files for any needed ACE modes and themes -->
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-java.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-css.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-text.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+				
+				<script src="http://localhost:9000/index.js"></script>
 
-						var sourceTextArea = document.getElementById("source");
-						const vscode = acquireVsCodeApi();
-						window.addEventListener('message', event => {
-							console.log(event);
-							const message = event.data; // The JSON data our extension sent
+				<script>
+				
+				  console.info("TIAGO");
+					console.info(AppFormer);
 
-							switch (message.type) {
-								case 'GET_CONTENT':
-									var content = sourceTextArea.value; // Replace to get actual editor content
+					setTimeout(() => AppFormer.Submarine.getEditor().setContent("${source}"), 20000);
+
+					const vscode = acquireVsCodeApi();
+					window.addEventListener('message', event => {
+						console.log(event);
+						const message = event.data; // The JSON data our extension sent
+
+						switch (message.type) {
+							case 'GET_CONTENT':
+								var content = AppFormer.Submarine.getEditor().getContent().then(s => {
 									vscode.postMessage({
 										type: "CONTENT",
-										content: content
-									});
-									break;
-							}
-						});
-					</script>
+										content: s
+									});	
+								});
+								break;
+						}
+					});
+				</script>
 				</body>
 			</html>`;
 		});
