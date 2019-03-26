@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 let monkeyPatchedSave: vscode.Disposable | undefined;
-let activeUri: vscode.Uri[] = [];
+let activeUri: vscode.Uri | undefined;
 
 function saveAction() {
 	console.info(`Saved WebView on: ${activeUri}`); //Do saving operation for open WebViews
