@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 let monkeyPatchedSave: vscode.Disposable | undefined;
-let activeUri: vscode.Uri | undefined;
+let activeUri: vscode.Uri[] = [];
 
 function saveAction() {
 	console.info(`Saved WebView on: ${activeUri}`); //Do saving operation for open WebViews
@@ -54,11 +54,11 @@ function init(context: vscode.ExtensionContext) {
 		console.info("Opened: " + uri);
 		if (!activeUri) {
 			activeUri = uri;
-			console.info("EITA");
+			console.info("Registered new save handler");
 			monkeyPatchBuiltinSaveCommand();
 		} else {
 			activeUri = uri;
-			console.info("VIRGI");
+			console.info("Didn't mess with the registered save handler");
 		}
 
 		const split = uri.path.split("/");
@@ -75,6 +75,7 @@ function init(context: vscode.ExtensionContext) {
 
 		panel.onDidChangeViewState(() => {
 			console.info(`Changed state: ${panel.title} -> ${panel.active}`);
+			activeUri = uri;
 		});
 
 		vscode.workspace.openTextDocument(uri).then((document) => {
