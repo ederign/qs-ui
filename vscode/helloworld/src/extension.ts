@@ -10,12 +10,51 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
 	try {
 		init(context);
+		var eder = vscode.commands.registerCommand('workbench.action.files.save', function () {
+			console.info(`Saving KIE EDITOR` + new Date());
+			if (!openURI || openURI.length <= 0) {
+				console.log(`no url`);
+			}
+			else {
+				console.log(`current url ` + openURI);
+				//paulo save aqui,
+			}
+			let editor = vscode.window.activeTextEditor;
+			if (!editor) {
+				return;
+			}
+			else {
+				editor.document.save();
+			}
+			return Promise.resolve();
+
+		});
+		context.subscriptions.push(eder);
+
+		// vscode.commands.registerCommand('workbench.action.files.save', () => {
+		// console.info(`Saving KIE EDITOR`);
+		// return Promise.resolve();
+		// if(!openURI||openURI.length <= 0){
+		// 	console.log(`no url`);
+		// }
+		// else{
+		// 	console.log(`current url `+ openURI);
+		// }
+		// let editor = vscode.window.activeTextEditor;
+		// if (!editor) {
+		// 	return;
+		// }
+		// else{
+		// 	editor.document.save();
+		// }
+		// });
 	} catch (e) {
 		console.info(e);
 	}
 }
 
 let saveHandler: vscode.Disposable;
+let openURI: string;
 
 function init(context: vscode.ExtensionContext) {
 
@@ -27,6 +66,25 @@ function init(context: vscode.ExtensionContext) {
 	// This line of code will only be executed once when your extension is activated
 	console.log('Extension is alive.');
 
+
+
+	// saveHandler = vscode.commands.registerCommand("workbench.action.files.save", () => {
+	// console.info(`Saving KIE EDITOR`);
+	// if(!openURI||openURI.length <= 0){
+	// 	console.log(`no url`);
+	// }
+	// else{
+	// 	console.log(`current url `+ openURI);
+	// }
+	// let editor = vscode.window.activeTextEditor;
+	// if (!editor) {
+	// 	return;
+	// }
+	// else{
+	// 	editor.document.save();
+	// }
+	// });
+
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
@@ -35,6 +93,8 @@ function init(context: vscode.ExtensionContext) {
 
 		// The code you place here will be executed every time your command is executed
 		console.info("Opened: " + uri);
+		openURI = uri.fsPath;
+		console.log("." + openURI);
 		const split = uri.path.split("/");
 
 		// Create and show a new webview
@@ -46,37 +106,25 @@ function init(context: vscode.ExtensionContext) {
 		);
 
 		console.info(`OPEN: registerig save handler for ${uri}`);
-		saveHandler = vscode.commands.registerCommand("workbench.action.files.save", () => {
-			console.info(`Saving ${uri}`);
-		});
 
-		panel.onDidDispose(() => {
-			try {
-				saveHandler.dispose();
-			} catch(e) {
-				console.info("Exception on dispose");
-			}
-		});
+		// panel.onDidDispose(() => {
+		// 	try {
+		// 		console.log("on did dispose");
+		// 		saveHandler.dispose();
+		// 	} catch(e) {
+		// 		console.info("Exception on dispose");
+		// 	}
+		// });
 
 		panel.onDidChangeViewState(() => {
 			console.info(`Changed state: ${panel.title} -> ${panel.active}`);
 			if (panel.active) {
-				try {
-					saveHandler.dispose();
-				} catch(e) {
-					console.info("Exception before registering");
-				}
-
-				console.info(`CHANGE: registerig save handler for ${uri}`);
-				saveHandler = vscode.commands.registerCommand("workbench.action.files.save", () => {
-					console.info(`Saving ${uri}`);
-				});
-			} else {
-				try {
-					saveHandler.dispose();
-				} catch(e) {
-					console.info("Exception on not active anymore.");
-				}
+				console.log("activating " + panel.title);
+				openURI = uri.fsPath;
+				console.log(openURI);
+			}
+			else if (openURI === uri.fsPath) {
+				openURI = "";
 			}
 		});
 
