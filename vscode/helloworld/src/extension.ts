@@ -15,24 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 }
 
-let monkeyPatchedSave: vscode.Disposable | undefined;
-let activeUri: vscode.Uri | undefined;
-
-function saveAction() {
-	console.info(`Saved WebView on: ${activeUri}`); //Do saving operation for open WebViews
-	if (monkeyPatchedSave) {
-		monkeyPatchedSave.dispose();
-	}
-	vscode.commands.executeCommand("workbench.action.files.save").then(() => {
-		monkeyPatchedSave = undefined;
-		monkeyPatchBuiltinSaveCommand();
-	});
-}
-function monkeyPatchBuiltinSaveCommand() {
-	if (!monkeyPatchedSave) {
-		monkeyPatchedSave = vscode.commands.registerCommand("workbench.action.files.save", saveAction);
-	}
-}
+let saveHandler: vscode.Disposable;
 
 function init(context: vscode.ExtensionContext) {
 
@@ -52,15 +35,6 @@ function init(context: vscode.ExtensionContext) {
 
 		// The code you place here will be executed every time your command is executed
 		console.info("Opened: " + uri);
-		if (!activeUri) {
-			activeUri = uri;
-			console.info("Registered new save handler");
-			monkeyPatchBuiltinSaveCommand();
-		} else {
-			activeUri = uri;
-			console.info("Didn't mess with the registered save handler");
-		}
-
 		const split = uri.path.split("/");
 
 		// Create and show a new webview
@@ -71,11 +45,39 @@ function init(context: vscode.ExtensionContext) {
 			{ enableCommandUris: true } // Webview options. More on these later.
 		);
 
+		console.info(`OPEN: registerig save handler for ${uri}`);
+		saveHandler = vscode.commands.registerCommand("workbench.action.files.save", () => {
+			console.info(`Saving ${uri}`);
+		});
 
+		panel.onDidDispose(() => {
+			try {
+				saveHandler.dispose();
+			} catch(e) {
+				console.info("Exception on dispose");
+			}
+		});
 
 		panel.onDidChangeViewState(() => {
 			console.info(`Changed state: ${panel.title} -> ${panel.active}`);
-			activeUri = uri;
+			if (panel.active) {
+				try {
+					saveHandler.dispose();
+				} catch(e) {
+					console.info("Exception before registering");
+				}
+
+				console.info(`CHANGE: registerig save handler for ${uri}`);
+				saveHandler = vscode.commands.registerCommand("workbench.action.files.save", () => {
+					console.info(`Saving ${uri}`);
+				});
+			} else {
+				try {
+					saveHandler.dispose();
+				} catch(e) {
+					console.info("Exception on not active anymore.");
+				}
+			}
 		});
 
 		vscode.workspace.openTextDocument(uri).then((document) => {
@@ -94,7 +96,7 @@ function init(context: vscode.ExtensionContext) {
 		});
 	});
 
-	// context.subscriptions.push(disposable);
+	context.subscriptions.push(disposable);
 }
 
 // this method is called when your extension is deactivated
