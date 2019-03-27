@@ -1,10 +1,13 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 
+import { BackendExecutor } from "./backend";
+
 export function activate(context: vscode.ExtensionContext) {
 	try {
 		CustomEditor.registerCommand(context);
 		CustomEditor.registerCustomSaveCommand(context);
+		BackendExecutor.run();
 	} catch (e) {
 		console.info(e);
 	}
@@ -65,8 +68,8 @@ class CustomEditor {
 	public static registerCustomSaveCommand(context: vscode.ExtensionContext) {
 		var customSaveCommand = vscode.commands.registerCommand('workbench.action.files.save', function () {
 			// If a custom editor is active, its content is saved manually.
-			if (CustomEditor.activeCustomEditor!._path && CustomEditor.activeCustomEditor!._path.length > 0) {
-				CustomEditor.activeCustomEditor!._panel.webview.postMessage({ type: "GET_CONTENT" });
+			if (CustomEditor.activeCustomEditor && CustomEditor.activeCustomEditor._path.length > 0) {
+				CustomEditor.activeCustomEditor._panel.webview.postMessage({ type: "GET_CONTENT" });
 			}
 
 			// If a text editor is opened, we save it normally.
