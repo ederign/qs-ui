@@ -6,6 +6,7 @@ import { BackendExecutor } from "./backend";
 
 export function activate(context: vscode.ExtensionContext) {
 	try {
+		console.info("Extension is alive.");
 		CustomEditor.registerCommand(context);
 		CustomEditor.registerCustomSaveCommand(context);
 		BackendExecutor.run();
