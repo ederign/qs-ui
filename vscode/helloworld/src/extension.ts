@@ -87,7 +87,7 @@ function init(context: vscode.ExtensionContext) {
 		const panel = vscode.window.createWebviewPanel(
 			'kie-submarine', // Identifies the type of the webview. Used internally
 			"KIE:: " + split[split.length - 1], // Title of the panel displayed to the user
-			{ viewColumn: vscode.ViewColumn.One, preserveFocus: true }, // Editor column to show the new webview panel in.
+			{ viewColumn: vscode.ViewColumn.Two, preserveFocus: true }, // Editor column to show the new webview panel in.
 			{ enableCommandUris: true, enableScripts: true, retainContextWhenHidden: true } // Webview options. More on these later.
 		);
 
@@ -156,7 +156,8 @@ function init(context: vscode.ExtensionContext) {
 			panel.webview.html = `<!DOCTYPE html>
 			<html lang="en">
 				<head>
-				    <title>KIE Editor</title>
+						<title>KIE Editor</title>
+						
 						<meta charset="UTF-8">
 						<meta name="viewport" content="width=device-width, initial-scale=1.0">
 						<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -164,72 +165,26 @@ function init(context: vscode.ExtensionContext) {
 						<link rel="stylesheet" type="text/css" href="http://localhost:9000/jsoneditor.min.css" >
 						<link rel="stylesheet" type="text/css" href="http://localhost:9000/patternfly.css">
 				
-						<link rel="stylesheet" href="http://localhost:9000/org.uberfire.editor.StandaloneEditor/css/patternfly.min.css">
-						<link rel="stylesheet" href="http://localhost:9000/org.uberfire.editor.StandaloneEditor/css/patternfly-additions.min.css">
+						<link rel="stylesheet" type="text/css" href="http://localhost:8080/org.uberfire.editor.StandaloneEditor/css/patternfly.min.css">
+						<link rel="stylesheet" type="text/css" href="http://localhost:8080/org.uberfire.editor.StandaloneEditor/css/patternfly-additions.min.css">
 				</head>
 				<body>
+
 				<div id="app"></div>
 				
 				<iframe id="__gwt_historyFrame" style="width: 0; height: 0; border: 0"></iframe>
+				<div id="loading" class="container-fluid hidden"></div>
 				
-				<!-- loading indicator. the js app hides this once it's loaded. -->
-				<div id="loading" class="container-fluid" style="position: absolute;left: 45%; top: 40%; padding: 2px; z-index: 20001; height: auto; border: 1px solid #ccc;">
-						<div class="row">
-								<div class="col-lg-12">
-										<div class="center-block text-center">
-												<div class="spinner spinner-lg"></div>
-										</div>
-								</div>
-								<div class="col-lg-12">
-										<div class="center-block text-center">
-												<h3>Please wait</h3>
-										</div>
-								</div>
-								<div class="col-lg-12">
-										<div class="center-block text-center">
-												<span>Loading application...</span>
-										</div>
-								</div>
-						</div>
-				</div>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/mode-java.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/mode-css.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/mode-text.js" type="text/javascript" charset="utf-8"></script>
+				<script src="http://localhost:8080/org.uberfire.editor.StandaloneEditor/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
 				
-				<!-- ACE - main .js file -->
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-				<!-- Get .js files for any needed ACE modes and themes -->
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-java.js" type="text/javascript" charset="utf-8"></script>
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-css.js" type="text/javascript" charset="utf-8"></script>
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-text.js" type="text/javascript" charset="utf-8"></script>
-				<script src="http://localhost:9000/org.uberfire.editor.StandaloneEditor/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
-				
-				<script src="http://localhost:9000/index.js"></script>
-
-				<script>
-				
-				  console.info("TIAGO");
-					console.info(AppFormer);
-
-					setTimeout(() => AppFormer.Submarine.getEditor().setContent("${source}"), 20000);
-
-					const vscode = acquireVsCodeApi();
-					window.addEventListener('message', event => {
-						console.log(event);
-						const message = event.data; // The JSON data our extension sent
-
-						switch (message.type) {
-							case 'GET_CONTENT':
-								var content = AppFormer.Submarine.getEditor().getContent().then(s => {
-									vscode.postMessage({
-										type: "CONTENT",
-										content: s
-									});	
-								});
-								break;
-						}
-					});
-				</script>
+				<script src="http://localhost:9000/index-vscode.js"></script>
 				</body>
 			</html>`;
 		});
