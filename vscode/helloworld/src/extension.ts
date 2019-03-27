@@ -53,29 +53,14 @@ function init(context: vscode.ExtensionContext) {
 	console.log('Extension is alive.');
 
 
-
-	// saveHandler = vscode.commands.registerCommand("workbench.action.files.save", () => {
-	// console.info(`Saving KIE EDITOR`);
-	// if(!openURI||openURI.length <= 0){
-	// 	console.log(`no url`);
-	// }
-	// else{
-	// 	console.log(`current url `+ openURI);
-	// }
-	// let editor = vscode.window.activeTextEditor;
-	// if (!editor) {
-	// 	return;
-	// }
-	// else{
-	// 	editor.document.save();
-	// }
-	// });
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-
-	let disposable = vscode.commands.registerCommand('kie.submarine', (uri: vscode.Uri) => {
+	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor((textEditor?: vscode.TextEditor) => {
+		if (!textEditor) {console.info("antesdepois");return;}
+		console.info(textEditor!.document.languageId +"ÇÇ" + textEditor!.document.uri);
+		if (textEditor!.document.languageId !== "json") return;
+		console.info("entrei");
+		const uri = textEditor!.document.uri;
+		return Promise.resolve().then(() => {
+			vscode.commands.executeCommand("workbench.action.closeActiveEditor").then(() => {
 
 		// The code you place here will be executed every time your command is executed
 		console.info("Opened: " + uri);
@@ -233,9 +218,8 @@ function init(context: vscode.ExtensionContext) {
 				</body>
 			</html>`;
 		});
-	});
-
-	context.subscriptions.push(disposable);
+	});});
+}));
 }
 
 // this method is called when your extension is deactivated
