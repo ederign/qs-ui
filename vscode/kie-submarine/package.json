@@ -1,6 +1,6 @@
 {
-	"name": "helloworld",
-	"displayName": "HelloWorld",
+	"name": "kie-submarine",
+	"displayName": "KIE Submarine",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -10,26 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:kie.submarine"
+		"*"
 	],
 	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "kie.submarine",
-				"title": "Open Editor"
-			}
-		],
-		"menus": {
-			"explorer/context": [
-				{
-					"when": "resourceExtname == .dmn",
-					"command": "kie.submarine",
-					"group": "KieGroup"
-				}
-			]
-		}
-	},
+	"contributes": {},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
