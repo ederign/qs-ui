@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<semantic:definitions xmlns:semantic="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="http://www.trisotech.com/definitions/_88671935-e3b8-448d-bd1d-8125a5e3c0ec" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:tc="http://www.omg.org/spec/DMN/20160719/testcase" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:trisofeed="http://trisotech.com/feed" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:triso="http://www.trisotech.com/2015/triso/modeling" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_88671935-e3b8-448d-bd1d-8125a5e3c0ec" name="Drawing 1" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="http://www.trisotech.com/definitions/_88671935-e3b8-448d-bd1d-8125a5e3c0ec">
+  <semantic:extensionElements/>
+  <semantic:inputData id="_952d9e47-596f-4af6-bed2-d0b55a045574" name="country">
+    <semantic:variable id="_01977175-99a9-4a18-84bf-1b3de622253e" name="country" typeRef="string"/>
+  </semantic:inputData>
+  <semantic:decisionService id="_1d3a5cb3-846d-4802-ac28-c342c42cfdac" name="Decision Service Can drive?">
+    <semantic:variable id="_db17ce94-9144-488a-83fe-d6eeeeb10ad7" name="Decision Service Can drive?" typeRef="Any"/>
+    <semantic:encapsulatedDecision href="#_c61f2bf3-b428-487b-98f9-cae1fd92fda4"/>
+    <semantic:inputData href="#_952d9e47-596f-4af6-bed2-d0b55a045574"/>
+    <semantic:inputData href="#_d7023c73-e36d-4300-a460-0e86e5b6cd2c"/>
+  </semantic:decisionService>
+  <semantic:decision id="_c61f2bf3-b428-487b-98f9-cae1fd92fda4" name="Can drive?">
+    <semantic:variable id="_f91df63c-50f6-4afb-af79-cb261e3882c9" name="Can drive?" typeRef="boolean"/>
+    <semantic:informationRequirement id="_626b9397-6575-4e0b-bd30-7cb2a90a45fb">
+      <semantic:requiredInput href="#_952d9e47-596f-4af6-bed2-d0b55a045574"/>
+    </semantic:informationRequirement>
+    <semantic:informationRequirement id="_8f47febe-0afe-40ad-b322-07beeb1ff640">
+      <semantic:requiredInput href="#_d7023c73-e36d-4300-a460-0e86e5b6cd2c"/>
+    </semantic:informationRequirement>
+    <semantic:decisionTable id="_181ebf70-8dd9-4ca2-9c4b-3410f9fab748" typeRef="boolean" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" outputLabel="Can drive?">
+      <semantic:input id="_4fa58761-ab23-4005-9932-59aeea18e16f">
+        <semantic:inputExpression id="_652D4F45-4E0A-4D50-B57F-D609803A0A4B" typeRef="string">
+          <semantic:text>country</semantic:text>
+        </semantic:inputExpression>
+      </semantic:input>
+      <semantic:input id="_b34554af-6cd5-423c-8a6a-daf631f321a9">
+        <semantic:inputExpression id="_5E4A58DE-358F-4001-B65A-C3EBDA35B75C" typeRef="number">
+          <semantic:text>age</semantic:text>
+        </semantic:inputExpression>
+      </semantic:input>
+      <semantic:output id="_fed74f3d-8be3-4232-b90c-22f1f0a54c3d"/>
+      <semantic:rule id="_171fd13b-803b-497b-bdbf-3d7be0ba16f9">
+        <semantic:inputEntry id="_da5d6cb5-70da-4dbc-a5a3-05c67b533bbd">
+          <semantic:text>"BR"</semantic:text>
+        </semantic:inputEntry>
+        <semantic:inputEntry id="_bc6083c5-4a52-4814-97f2-a4708fdddbe8">
+          <semantic:text>&gt; 18</semantic:text>
+        </semantic:inputEntry>
+        <semantic:outputEntry id="_24774d2d-bf95-4b82-90f0-30cd34e82267">
+          <semantic:text>true</semantic:text>
+        </semantic:outputEntry>
+      </semantic:rule>
+      <semantic:rule id="_12dc314d-eb0e-49a6-ba0d-05db3d535600">
+        <semantic:inputEntry id="_0a2b9ece-b158-4858-939c-4efba5869c89">
+          <semantic:text>"USA"</semantic:text>
+        </semantic:inputEntry>
+        <semantic:inputEntry id="_cc548ab1-c43f-4be8-ba30-62e4b4841bc9">
+          <semantic:text>&gt; 16</semantic:text>
+        </semantic:inputEntry>
+        <semantic:outputEntry id="_fd5d59de-cfce-4991-9865-66a787600ed3">
+          <semantic:text>true</semantic:text>
+        </semantic:outputEntry>
+      </semantic:rule>
+      <semantic:rule id="_ef373536-5b2b-42c5-bc46-17c2ec102bd7">
+        <semantic:inputEntry id="_fffacad5-b9e1-4cae-92da-bbc744b86d13">
+          <semantic:text>-</semantic:text>
+        </semantic:inputEntry>
+        <semantic:inputEntry id="_30816e57-cc0a-4fee-bc91-df8b3d930777">
+          <semantic:text>-</semantic:text>
+        </semantic:inputEntry>
+        <semantic:outputEntry id="_32beb72f-0a52-4414-a240-72d1ba828840">
+          <semantic:text>false</semantic:text>
+        </semantic:outputEntry>
+      </semantic:rule>
+    </semantic:decisionTable>
+  </semantic:decision>
+  <semantic:inputData id="_d7023c73-e36d-4300-a460-0e86e5b6cd2c" name="ages">
+    <semantic:variable id="_980f7a9b-8618-4969-9d7b-90a89021503f" name="ages" typeRef="number"/>
+  </semantic:inputData>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_181ebf70-8dd9-4ca2-9c4b-3410f9fab748"/>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-_952d9e47-596f-4af6-bed2-d0b55a045574" dmnElementRef="_952d9e47-596f-4af6-bed2-d0b55a045574" isCollapsed="false">
+        <dmndi:DMNStyle fontFamily="arial,helvetica,sans-serif" fontSize="11">
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="952.2590517997742" y="482" width="135.48189640045166" height="60"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_1d3a5cb3-846d-4802-ac28-c342c42cfdac" dmnElementRef="_1d3a5cb3-846d-4802-ac28-c342c42cfdac" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="171" y="74" width="200" height="200"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="171" y="174"/>
+          <di:waypoint x="371" y="174"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_c61f2bf3-b428-487b-98f9-cae1fd92fda4" dmnElementRef="_c61f2bf3-b428-487b-98f9-cae1fd92fda4" isCollapsed="false">
+        <dmndi:DMNStyle fontFamily="arial,helvetica,sans-serif" fontSize="11">
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="646.5" y="272" width="153" height="60"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_d7023c73-e36d-4300-a460-0e86e5b6cd2c" dmnElementRef="_d7023c73-e36d-4300-a460-0e86e5b6cd2c" isCollapsed="false">
+        <dmndi:DMNStyle fontFamily="arial,helvetica,sans-serif" fontSize="11">
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="393.25905179977417" y="465" width="135.48189640045166" height="60"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-_626b9397-6575-4e0b-bd30-7cb2a90a45fb" dmnElementRef="_626b9397-6575-4e0b-bd30-7cb2a90a45fb">
+        <di:waypoint x="1019.9967007637024" y="482"/>
+        <di:waypoint x="763" y="332"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_8f47febe-0afe-40ad-b322-07beeb1ff640" dmnElementRef="_8f47febe-0afe-40ad-b322-07beeb1ff640">
+        <di:waypoint x="500.9967007637024" y="465"/>
+        <di:waypoint x="713" y="332"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</semantic:definitions>

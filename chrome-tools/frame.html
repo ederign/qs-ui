@@ -1,1 +1,8 @@
-<iframe src="http://127.0.0.1:8080" style="border:0px #ffffff none;" name="myiFrame" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="460px" width="100%" allowfullscreen></iframe>
+<html>
+<body>
+
+<iframe id="iframe" src="http://127.0.0.1:8080" style="border:0px #ffffff none;" name="iframe" scrolling="no"
+        frameborder="1" marginheight="0px" marginwidth="0px" height="460px" width="100%" allowfullscreen sandbox="allow-same-origin allow-scripts"></iframe>
+</body>
+<script>setTimeout(function () {console.log(document.getElementById('iframe'));console.log(document.getElementById('iframe').contentWindow.gwtEditorBeans);}, 5000);</script>
+</html>

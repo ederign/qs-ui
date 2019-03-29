@@ -1,1 +1,20 @@
-asdadasdas222ffff23232
+{
+  "name": "QS Chrome Extension",
+  "version": "1.2.0",
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' 'sha256-oCBpEw3uzPu9p/Jm/4g+jR0muU5gJgpjg3AZv2dvy9I='",
+  "description": "QS Chrome Extension",
+  "content_scripts": [{
+    "js": ["contentscript.js"],
+    "matches": ["https://github.com/*/edit/*", "http://127.0.0.1/*", "https://127.0.0.1/*,  chrome-extension://*/*"],
+    "all_frames": true
+  }],
+  "web_accessible_resources": [
+    "frame.html"
+  ],
+  "permissions": [
+    "https://*/*",
+    "http://*/*",
+    "tabs"
+  ]
+}
