@@ -1,40 +1,30 @@
-// chrome.runtime.onInstalled.addListener(function() {
-//   // chrome.storage.sync.set({color: '#3aa757'}, function() {
-//   //   console.log('Test');
-//   // });
-//   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-//     chrome.declarativeContent.onPageChanged.addRules([{
-//       conditions: [new chrome.declarativeContent.PageStateMatcher({
-//         pageUrl: {hostEquals: 'github.com'},
-//       })
-//       ],
-//           actions: [new chrome.declarativeContent.ShowPageAction()]
-//     }]);
-//   });
-// });
+'use strict';
+
 chrome.runtime.onInstalled.addListener(function() {
     console.log("background");
 
     setTimeout(function () {
         console.log('log background');
-
     }, 1000);
 });
 
-chrome.webRequest.onHeadersReceived.addListener(info => {
-    const headers = info.responseHeaders; // original headers
-    console.log("headers hack");
-    for (let i=headers.length-1; i>=0; --i) {
-        console.log("headers executed");
-        let header = headers[i].name.toLowerCase();
-        if (header === "content-security-policy") { // csp header is found
-            // modify frame-src here
-            headers[i].value = headers[i].value.replace("frame-src", "frame-src render.githubusercontent.com");
+
+function removeHeader(headers, name) {
+    for (var i = 0; i < headers.length; i++) {
+        if (headers[i].name.toLowerCase() === name) {
+            console.log('Removing "' + name + '" header.');
+            headers.splice(i, 1);
+            break;
         }
     }
-    // return modified headers
-    return {responseHeaders: headers};
-}, {
-    urls: [ "<all_urls>" ], // match all pages
-    types: [ "sub_frame" ] // for framing only
-}, ["blocking", "responseHeaders"]);
+}
+
+chrome.webRequest.onHeadersReceived.addListener(
+    function(details) {
+        removeHeader(details.responseHeaders, 'content-security-policy');
+        return {responseHeaders: details.responseHeaders};
+    },
+    // request filters
+    {urls: ['https://*/*', 'http://*/*']},
+    // extraInfoSpec (magic)
+    ['blocking', 'responseHeaders', 'extraHeaders']);
