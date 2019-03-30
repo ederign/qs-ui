@@ -2,19 +2,36 @@
   "name": "QS Chrome Extension",
   "version": "1.2.0",
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'sha256-oCBpEw3uzPu9p/Jm/4g+jR0muU5gJgpjg3AZv2dvy9I='",
+  "content_security_policy": "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'",
   "description": "QS Chrome Extension",
-  "content_scripts": [{
-    "js": ["contentscript.js"],
-    "matches": ["https://github.com/*/edit/*", "http://127.0.0.1/*", "https://127.0.0.1/*,  chrome-extension://*/*"],
-    "all_frames": true
-  }],
+  "content_scripts": [
+    {
+      "js": [
+        "contentscript.js"
+      ],
+      "matches": [
+        "https://github.com/*/edit/*",
+        "http://127.0.0.1/*",
+        "https://127.0.0.1/*,  chrome-extension://*/*"
+      ],
+      "all_frames": true
+    }
+  ],
   "web_accessible_resources": [
-    "frame.html"
+    "frame.html",
+    "http://127.0.0.1:8080"
   ],
   "permissions": [
+    "webRequestBlocking",
+    "webRequest",
     "https://*/*",
     "http://*/*",
-    "tabs"
-  ]
+    "tabs",
+    "declarativeContent",
+    "background"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  }
 }
