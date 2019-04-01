@@ -7,9 +7,6 @@
   <semantic:inputData id="_d7023c73-e36d-4300-a460-0e86e5b6cd2c" name="ages">
     <semantic:variable id="_980f7a9b-8618-4969-9d7b-90a89021503f" name="ages" typeRef="number"/>
   </semantic:inputData>
-  <semantic:textAnnotation id="_5B32664C-B4CB-40A1-9315-ED24EC7F80BB" textFormat="text/plain">
-    <semantic:text>TextAnnotation-1</semantic:text>
-  </semantic:textAnnotation>
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
       <di:extension>
@@ -22,15 +19,6 @@
           <dmndi:FontColor red="0" green="0" blue="0"/>
         </dmndi:DMNStyle>
         <dc:Bounds x="952.2590517997742" y="482" width="135.48189640045166" height="60"/>
-        <dmndi:DMNLabel/>
-      </dmndi:DMNShape>
-      <dmndi:DMNShape id="dmnshape-_5B32664C-B4CB-40A1-9315-ED24EC7F80BB" dmnElementRef="_5B32664C-B4CB-40A1-9315-ED24EC7F80BB" isCollapsed="false">
-        <dmndi:DMNStyle>
-          <dmndi:FillColor red="255" green="255" blue="255"/>
-          <dmndi:StrokeColor red="0" green="0" blue="0"/>
-          <dmndi:FontColor red="0" green="0" blue="0"/>
-        </dmndi:DMNStyle>
-        <dc:Bounds x="199" y="45" width="100" height="50"/>
         <dmndi:DMNLabel/>
       </dmndi:DMNShape>
       <dmndi:DMNShape id="dmnshape-_d7023c73-e36d-4300-a460-0e86e5b6cd2c" dmnElementRef="_d7023c73-e36d-4300-a460-0e86e5b6cd2c" isCollapsed="false">
